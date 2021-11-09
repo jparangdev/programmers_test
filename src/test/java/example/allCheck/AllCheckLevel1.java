@@ -1,4 +1,4 @@
-package example;
+package example.allCheck;
 
 import static org.assertj.core.api.AssertionsForClassTypes.*;
 
