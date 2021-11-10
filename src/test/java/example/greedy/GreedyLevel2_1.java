@@ -56,10 +56,7 @@ name	return
 	}
 
 	public class Pad {
-		private String
 
-		public Pad() {
-		}
 	}
 
 }

@@ -41,9 +41,10 @@ n	lost	reserve		return
 
 	private static Stream<Arguments> 파라미터() {
 		return Stream.of(
-			Arguments.of(5, new int[] {2, 4}, new int[] {1, 3, 5}, 5),
-			Arguments.of(5, new int[] {2, 4}, new int[] {3}, 4),
-			Arguments.of(3, new int[] {3}, new int[] {1}, 2)
+			// Arguments.of(5, new int[] {2, 4}, new int[] {1, 3, 5}, 5),
+			// Arguments.of(5, new int[] {2, 4}, new int[] {3}, 4),
+			// Arguments.of(3, new int[] {3}, new int[] {1}, 2),
+			Arguments.of(6, new int[] {1, 2, 3, 6}, new int[] {2, 5}, 4)
 
 		);
 	}
@@ -52,10 +53,10 @@ n	lost	reserve		return
 	@MethodSource("파라미터")
 	void 체육복(int n, int[] lost, int[] reserve, int result) {
 		int answer;
-		List<Integer> lostList = Arrays.stream(lost).boxed().collect(Collectors.toList());
-		List<Integer> reserveList = Arrays.stream(reserve).boxed().collect(Collectors.toList());
+		List<Integer> lostList = Arrays.stream(lost).sorted().boxed().collect(Collectors.toList());
+		List<Integer> reserveList = Arrays.stream(reserve).sorted().boxed().collect(Collectors.toList());
 
-		List<Integer> inter = lostList.stream().filter(reserveList::contains).collect(Collectors.toList());
+		List<Integer> inter = lostList.stream().filter(reserveList::contains).sorted().collect(Collectors.toList());
 		lostList.removeAll(inter);
 		reserveList.removeAll(inter);
 
@@ -71,10 +72,7 @@ n	lost	reserve		return
 		}
 
 		for (Integer i : lostList) {
-			if (map.get(i).isReserve()) {
-				map.get(i).setReserve(false);
-				map.get(i).setLost(false);
-			} else if (i - 1 >= 1 && map.get(i - 1).isReserve()) {
+			if (i - 1 >= 1 && map.get(i - 1).isReserve()) {
 				map.get(i - 1).setReserve(false);
 				map.get(i).setLost(false);
 			} else if (i + 1 <= n && map.get(i + 1).isReserve()) {
