@@ -40,9 +40,40 @@ name	return
 
 	private static Stream<Arguments> 파라미터() {
 		return Stream.of(
+			Arguments.of("ABAAAAAAAAABB", 7),
+			Arguments.of("AAABBAA", 6),
+			Arguments.of("AABBAA", 5),
 			Arguments.of("JAZ", 11),
+			Arguments.of("JAAZ", 11),
+			Arguments.of("BAAAAAAAA", 1),
+			Arguments.of("BAAAAAAAAB", 3),
+			Arguments.of("BAAABBAAAB", 10),
+			Arguments.of("AAAAABAAA", 5),
+			Arguments.of("ABBAABAAA", 8),
+			Arguments.of("BAAABBAAAB", 10),
 			Arguments.of("JEROEN", 56),
-			Arguments.of("JAN", 23)
+			Arguments.of("JAN", 23),
+			Arguments.of("AAAAAAAAA", 0),
+			Arguments.of("A", 0),
+			Arguments.of("B", 1),
+			Arguments.of("C", 2),
+			Arguments.of("D", 3),
+			Arguments.of("E", 4),
+			Arguments.of("F", 5),
+			Arguments.of("G", 6),
+			Arguments.of("H", 7),
+			Arguments.of("I", 8),
+			Arguments.of("J", 9),
+			Arguments.of("K", 10),
+			Arguments.of("L", 11),
+			Arguments.of("M", 12),
+			Arguments.of("N", 13),
+			Arguments.of("O", 12),
+			Arguments.of("P", 11),
+			Arguments.of("Q", 10),
+			Arguments.of("R", 9),
+			Arguments.of("Z", 1),
+			Arguments.of("BZBZBZA", 11)
 		);
 	}
 
@@ -51,12 +82,48 @@ name	return
 	void 조이스틱(String name, int result) {
 		int answer = 0;
 
+		for (char c : name.toCharArray()) {
+			answer += getMinCount(c);
+		}
+		answer += getMoveCount(name);
 		assertThat(answer)
 			.isEqualTo(result);
 	}
 
-	public class Pad {
+	private int getMinCount(char output) {
+		int diff = output - 'A';
 
+		if (diff > 13) {
+			return (diff * -1) + 26;
+		}
+		return diff;
+	}
+
+	private int getMoveCount(String input) {
+		if (input.length() == 1) {
+			return 0;
+		}
+
+		int aCnt1 = 0;
+		int aCnt2 = 0;
+		for (int i = 1; i < input.length(); i++) {
+			if (input.charAt(i) == 'A') {
+				aCnt1++;
+			} else {
+				break;
+			}
+		}
+		for (int i = input.length() - 1; i > 1; i--) {
+			if (input.charAt(i) == 'A') {
+				aCnt2++;
+			} else {
+				break;
+			}
+		}
+
+		int aCnt = Math.max(aCnt1, aCnt2);
+
+		return input.length() - aCnt - 1;
 	}
 
 }
