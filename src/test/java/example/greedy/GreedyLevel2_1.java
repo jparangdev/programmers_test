@@ -40,40 +40,16 @@ name	return
 
 	private static Stream<Arguments> 파라미터() {
 		return Stream.of(
-			Arguments.of("ABAAAAAAAAABB", 7),
-			Arguments.of("AAABBAA", 6),
-			Arguments.of("AABBAA", 5),
-			Arguments.of("JAZ", 11),
-			Arguments.of("JAAZ", 11),
-			Arguments.of("BAAAAAAAA", 1),
-			Arguments.of("BAAAAAAAAB", 3),
-			Arguments.of("BAAABBAAAB", 10),
-			Arguments.of("AAAAABAAA", 5),
-			Arguments.of("ABBAABAAA", 8),
-			Arguments.of("BAAABBAAAB", 10),
-			Arguments.of("JEROEN", 56),
-			Arguments.of("JAN", 23),
-			Arguments.of("AAAAAAAAA", 0),
-			Arguments.of("A", 0),
-			Arguments.of("B", 1),
-			Arguments.of("C", 2),
-			Arguments.of("D", 3),
-			Arguments.of("E", 4),
-			Arguments.of("F", 5),
-			Arguments.of("G", 6),
-			Arguments.of("H", 7),
-			Arguments.of("I", 8),
-			Arguments.of("J", 9),
-			Arguments.of("K", 10),
-			Arguments.of("L", 11),
-			Arguments.of("M", 12),
-			Arguments.of("N", 13),
-			Arguments.of("O", 12),
-			Arguments.of("P", 11),
-			Arguments.of("Q", 10),
-			Arguments.of("R", 9),
-			Arguments.of("Z", 1),
-			Arguments.of("BZBZBZA", 11)
+			Arguments.of("ABAAAAAAAAABB", 7)
+			// , Arguments.of("AAABBAA", 6)
+			// , Arguments.of("AABBAA", 5)
+			// , Arguments.of("BBAAAA", 5)
+			// , Arguments.of("ABAAAB", 6)
+			// , Arguments.of("JAZ", 11)
+			// , Arguments.of("JAAZ", 11)
+			// , Arguments.of("JEROEN", 56)
+			// , Arguments.of("JAN", 23)
+			// , Arguments.of("AAAAAAAAA", 0)
 		);
 	}
 
@@ -83,15 +59,15 @@ name	return
 		int answer = 0;
 
 		for (char c : name.toCharArray()) {
-			answer += getMinCount(c);
+			answer += upDown(c);
 		}
-		answer += getMoveCount(name);
+		answer += rightLeft(name);
 		assertThat(answer)
 			.isEqualTo(result);
 	}
 
-	private int getMinCount(char output) {
-		int diff = output - 'A';
+	private int upDown(char c) {
+		int diff = c - 'A';
 
 		if (diff > 13) {
 			return (diff * -1) + 26;
@@ -99,31 +75,26 @@ name	return
 		return diff;
 	}
 
-	private int getMoveCount(String input) {
+	private int rightLeft(String input) {
 		if (input.length() == 1) {
 			return 0;
 		}
-
-		int aCnt1 = 0;
-		int aCnt2 = 0;
-		for (int i = 1; i < input.length(); i++) {
-			if (input.charAt(i) == 'A') {
-				aCnt1++;
+		int maxIdx = 0;
+		int maxCnt = 0;
+		int aSize = 0;
+		for (int i = 0; i < input.length(); i++) {
+			char c = input.charAt(i);
+			if (c == 'A') {
+				aSize++;
+				maxCnt++;
+				if (maxCnt < aSize) {
+					maxIdx = i;
+				}
 			} else {
-				break;
+				aSize = 0;
 			}
 		}
-		for (int i = input.length() - 1; i > 1; i--) {
-			if (input.charAt(i) == 'A') {
-				aCnt2++;
-			} else {
-				break;
-			}
-		}
-
-		int aCnt = Math.max(aCnt1, aCnt2);
-
-		return input.length() - aCnt - 1;
+		return 0;
 	}
 
 }
